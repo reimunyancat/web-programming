@@ -9,9 +9,9 @@ article {
 article:nth-of-type(1) {
 	padding: 0px;
 }
-article:nth-of-type(2) {
+/* article:nth-of-type(2) {
 	padding: 30px;
-}
+} */
 
 /* 기존 박스 크기 유지하면서 안쪽 여백 설정하기*/
 /* article:nth-of-type(2) {
@@ -19,6 +19,7 @@ article:nth-of-type(2) {
 	width: 40px;
 	height: 40px;
 }  */
-/* article:nth-of-type(2){
-	box-sizing: border-box;
-} */
+article:nth-of-type(2){
+	padding: 30px;
+	box-sizing: border-box;	
+}

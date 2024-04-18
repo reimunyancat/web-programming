@@ -10,4 +10,11 @@ strong, em {
    /* height: 50px; 인라인 요소 크기 지정*/
    /* display: inline-block; 인라인과 블록 요소 모두 사용*/
    /* display: block; /* 블록 요소로 강제 변환*/
+   width:  50000px;
+   height: 1000000px;
+}
+h1 {
+   background-color: aqua;
+   height: 300px;
+   width: 300px;
 }
