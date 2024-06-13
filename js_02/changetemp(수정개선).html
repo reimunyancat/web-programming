@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>온도 변환기</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="changetemp.css">
+</head>
+<body>
+    <h1>온도 변환기</h1>
+
+    <label for="celsius">섭씨:</label>
+    <input type="number" id="celsius" placeholder="섭씨 온도를 입력하세요">
+
+    <label for="fahrenheit">화씨:</label>
+    <input type="number" id="fahrenheit" placeholder="화씨 온도를 입력하세요">
+
+    <button onclick="convertToCelsius()">섭씨로 변환</button>
+    <button onclick="convertToFahrenheit()">화씨로 변환</button>
+
+    <script>
+        function convertToCelsius() {
+            var fahrenheitInput = document.getElementById("fahrenheit");
+            var celsiusInput = document.getElementById("celsius");
+
+            if (fahrenheitInput.value !== "") {
+                var fahrenheit = parseFloat(fahrenheitInput.value);
+                var celsius = (fahrenheit - 32) * 5 / 9;
+                celsiusInput.value = celsius.toFixed(2);
+            }
+        }
+
+        function convertToFahrenheit() {
+            var celsiusInput = document.getElementById("celsius");
+            var fahrenheitInput = document.getElementById("fahrenheit");
+
+            if (celsiusInput.value !== "") {
+                var celsius = parseFloat(celsiusInput.value);
+                var fahrenheit = (celsius * 9 / 5) + 32;
+                fahrenheitInput.value = fahrenheit.toFixed(2);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>계산기</h3>
+    <form name="myform" action="..." method="POST">
+        첫번째 정수:<input id="x" /><br />
+        두번째 정수:<input id="y" /><br />
+        <button onclick="add()">더하기</button>
+        <button onclick="sub()">빼기</button>
+        <button onclick="mul()">곱하기</button>
+        <button onclick="div()">나누기</button>
+        <button onclick="mod()">나머지</button>
+        <button onclick="pow()">제곱</button>
+
+    </form>
+</body>
+<script>
+    function add(){
+        let x = parseInt(document.getElementById("x").value);
+        let y = parseInt(document.getElementById("y").value);
+        alert(x + y);
+    }
+    function sub(){
+        let x = parseInt(document.getElementById("x").value);
+        let y = parseInt(document.getElementById("y").value);
+        alert(x - y);
+    }
+    function mul(){
+        let x = parseInt(document.getElementById("x").value);
+        let y = parseInt(document.getElementById("y").value);
+        alert(x * y);
+    }
+    function div(){
+        let x = parseInt(document.getElementById("x").value);
+        let y = parseInt(document.getElementById("y").value);
+        alert(x / y);
+    }
+    function mod(){
+        let x = parseInt(document.getElementById("x").value);
+        let y = parseInt(document.getElementById("y").value);
+        alert(x % y);
+    }
+    function pow(){
+        let x = parseInt(document.getElementById("x").value);
+        let y = parseInt(document.getElementById("y").value);
+        alert(Math.pow(x, y));
+    }
+</script>
+</html>
