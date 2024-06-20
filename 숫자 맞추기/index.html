@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>숫자 맞추기</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        function checkGuess() {
+            const userGuess = parseInt(document.getElementById("guess").value);
+
+            if (userGuess === randomNumber) {
+                alert("Congratulations! You guessed the correct number.");
+            } else if (userGuess < randomNumber) {
+                alert("Too low. Try again.");
+            } else {
+                alert("Too high. Try again.");
+            }
+        }
+    </script>
+    
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+    <p>Guess a number between 1 and 100:</p>
+    <input type="number" id="guess">
+    <button onclick="checkGuess()">Check</button>
+</body>
+</html>
