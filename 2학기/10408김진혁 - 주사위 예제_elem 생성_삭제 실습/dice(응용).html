@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <title>주사위 굴리기</title>
+    <style>
+        * {
+            font-family: 궁서, sans-serif;
+            text-align: center;
+        }
+
+        .waflan {
+            height: 100px;
+            width: 100px;
+            margin: 10px auto;
+            background-color: red;
+            border: 1px solid gray;
+            border-radius: 10px;
+            font-size: 100px;
+        }
+        
+        .wasans {
+            height: 100px;
+            width: 100px;
+            margin: 10px auto;
+            background-color: cyan;
+            border: 1px solid gray;
+            border-radius: 10px;
+            font-size: 100px;
+        }
+    </style>
+    <script>
+        function roll() {
+            let dice = document.getElementById('dice');
+            let number = Math.floor(Math.random() * 6) + 1;
+            const back = document.getElementById('dice');
+            if (back.classList.contains('waflan')) {
+                back.classList.remove('waflan');
+                back.classList.add('wasans');
+            } else if(back.classList.contains('wasans')) {
+                back.classList.remove('wasans');
+                back.classList.add('waflan');
+            } else {
+                back.classList.add('waflan'); 
+            }
+            dice.innerHTML = number;
+        };
+    </script>
+</head>
+
+<body>
+    <h3>주사위 굴리기 게임입니다.</h3>
+    <p id="dice"> </p>
+    <button onclick="roll()">주사위 굴리기</button>
+</body>
+
+</html>

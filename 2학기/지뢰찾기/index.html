@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <style>
+        * {
+            text-align: center;
+        }
+
+        #board {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #board tr td {
+            border: 1px solid white;
+            background: #34da79;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+        }
+
+        #board tr td.clicked {
+            background: #6c5ee7;
+        }
+
+        #board tr td.mine {
+            background: #FF0000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>지뢰찾기</h1>
+    <table id=board>
+    </table>
+    <BUTTON onclick="genGrid();">초기화</BUTTON>
+    <script>
+        let grid = document.getElementById("board");
+        let l = 1;
+        genGrid();
+
+        function genGrid() {
+            l = 1;
+            grid.innerHTML = "";
+            for (let i = 0; i < 16; i++) {
+                row = grid.insertRow(i);
+                for (let j = 0; j < 16; j++) {
+                    cell = row.insertCell(j);
+                    var mine = document.createAttribute("mine");
+                    if (Math.random() < 0.2)
+                        mine.value = "true";
+                    else
+                        mine.value = "false";
+                    cell.setAttributeNode(mine);
+                    cell.onclick = function () { if(l==1) clickBox(this); else fxxk(); };
+                }
+            }
+        }
+
+        function clickBox(cell) {
+            if (cell.getAttribute("mine") == "true") {
+                cell.className = "mine";
+                l = 0;
+                alert("게임이 종료되었습니다.");
+            } else {
+                cell.className = "clicked";
+            }
+        }
+
+        function fxxk() {
+            alert("초기화 하라고!!");
+        }
+    </script>
+</body>
+
+</html>
