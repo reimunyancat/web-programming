@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <style>
         * {
@@ -27,51 +26,122 @@
         #board tr td.mine {
             background: #FF0000;
         }
+
+        .level {
+            border: none;
+            color: rgb(0, 0, 0);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        #easy {
+            background-color: #00d0ff;
+        }
+
+        #normal {
+            background-color: #4CAF50;
+        }
+
+        #hard {
+            background-color: #ff0000;
+        }
+
+        #lunatic {
+            background-color: #d400ff;
+        }
+
     </style>
 </head>
-
 <body>
     <h1>지뢰찾기</h1>
-    <table id=board>
-    </table>
-    <BUTTON onclick="genGrid();">초기화</BUTTON>
+    <h2>난이도 선택</h2>
+    <button onclick="genGrid(1);" id="easy" class="level">Easy</button>
+    <button onclick="genGrid(2);" id="normal" class="level">Normal</button>
+    <button onclick="genGrid(3);" id="hard" class="level">Hard</button>
+    <button onclick="genGrid(4);" id="lunatic" class="level">Lunatic</button>
+    <table id="board"></table>
+    <button onclick="re()">다시 하기</button>
+    <button onclick="cho()">초기화</button>
+    <p id="p"></p>
+    <p id="p2"></p>
+
     <script>
         let grid = document.getElementById("board");
         let l = 1;
-        genGrid();
+        let clicke = 0;
+        let bestScores = {1: 0, 2: 0, 3: 0, 4: 0};
+        let level = 0;
 
-        function genGrid() {
+        function cho() {
+            l = 1;
+            clicke = 0;
+            grid.innerHTML = "";
+            document.querySelectorAll('.level').forEach(button => button.style.display = 'inline-block');
+        }
+
+        function genGrid(difficulty) {
+            level = difficulty;
+            clicke = 0;
             l = 1;
             grid.innerHTML = "";
+            
+            document.querySelectorAll('.level').forEach(button => button.style.display = 'none');
+
             for (let i = 0; i < 16; i++) {
-                row = grid.insertRow(i);
+                let row = grid.insertRow(i);
                 for (let j = 0; j < 16; j++) {
-                    cell = row.insertCell(j);
-                    var mine = document.createAttribute("mine");
-                    if (Math.random() < 0.2)
-                        mine.value = "true";
-                    else
-                        mine.value = "false";
-                    cell.setAttributeNode(mine);
-                    cell.onclick = function () { if(l==1) clickBox(this); else fxxk(); };
+                    let cell = row.insertCell(j);
+                    cell.setAttribute("mine", Math.random() < 0.2 * level ? "true" : "false");
+                    cell.onclick = function () { 
+                        if (l === 1) clickBox(this); 
+                        else alert("초기화 하라고!!"); 
+                    };
                 }
             }
         }
 
         function clickBox(cell) {
-            if (cell.getAttribute("mine") == "true") {
+            if (cell.getAttribute("mine") === "true") {
                 cell.className = "mine";
                 l = 0;
+                rev();
+                display();
                 alert("게임이 종료되었습니다.");
             } else {
                 cell.className = "clicked";
+                clicke++;
+                display();
             }
         }
 
-        function fxxk() {
-            alert("초기화 하라고!!");
+        function display() {
+            document.getElementById("p").innerHTML = "성공 횟수 : " + clicke;
+            if (clicke > bestScores[level]) {
+                bestScores[level] = clicke;
+            }
+            document.getElementById("p2").innerHTML = "최고 기록 : " + bestScores[level];
+        }
+
+        function rev() {
+            let cells = grid.getElementsByTagName("td");
+            for (let cell of cells) {
+                if (cell.getAttribute("data-mine") === "true") {
+                    cell.className = "mine";
+                }
+            }
+        }
+
+        function re() {
+            l = 1;
+            clicke = 0;
+            grid.innerHTML = "";
+            genGrid(level);
         }
     </script>
 </body>
-
 </html>
