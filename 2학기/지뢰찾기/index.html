@@ -2,57 +2,64 @@
 <html lang="ko">
 <head>
     <style>
+        /* 모든 요소의 텍스트를 가운데 정렬 */
         * {
             text-align: center;
         }
 
+        /* 게임 보드를 중앙에 위치 */
         #board {
             margin-left: auto;
             margin-right: auto;
         }
 
+        /* 보드의 셀 스타일 설정 */
         #board tr td {
-            border: 1px solid white;
-            background: #34da79;
-            width: 16px;
-            height: 16px;
-            text-align: center;
+            border: 1px solid white; /* 셀의 테두리 색상 */
+            background: #34da79; /* 기본 배경 색상 */
+            width: 16px; /* 셀의 너비 */
+            height: 16px; /* 셀의 높이 */
+            text-align: center; /* 텍스트를 가운데 정렬 */
         }
 
+        /* 클릭한 셀의 스타일 설정 */
         #board tr td.clicked {
-            background: #6c5ee7;
+            background: #6c5ee7; /* 클릭된 셀의 배경 색상 */
         }
 
+        /* 지뢰가 있는 셀의 스타일 설정 */
         #board tr td.mine {
-            background: #FF0000;
+            background: #FF0000; /* 지뢰 셀의 배경 색상 */
         }
 
+        /* 난이도 선택 버튼 스타일 */
         .level {
-            border: none;
-            color: rgb(0, 0, 0);
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
+            border: none; /* 버튼 테두리 없음 */
+            color: rgb(0, 0, 0); /* 버튼 텍스트 색상 */
+            padding: 15px 32px; /* 버튼의 패딩 */
+            text-align: center; /* 버튼 텍스트 가운데 정렬 */
+            text-decoration: none; /* 버튼 텍스트 밑줄 없음 */
+            display: inline-block; /* 버튼을 인라인 블록으로 설정 */
+            font-size: 16px; /* 버튼 텍스트 크기 */
+            margin: 4px 2px; /* 버튼의 외부 여백 */
+            cursor: pointer; /* 버튼에 커서가 오면 포인터로 변경 */
         }
 
+        /* 각 난이도에 따른 버튼 배경 색상 */
         #easy {
-            background-color: #00d0ff;
+            background-color: #00d0ff; /* Easy 난이도 버튼 색상 */
         }
 
         #normal {
-            background-color: #4CAF50;
+            background-color: #4CAF50; /* Normal 난이도 버튼 색상 */
         }
 
         #hard {
-            background-color: #ff0000;
+            background-color: #ff0000; /* Hard 난이도 버튼 색상 */
         }
 
         #lunatic {
-            background-color: #d400ff;
+            background-color: #d400ff; /* Lunatic 난이도 버튼 색상 */
         }
 
     </style>
@@ -60,87 +67,102 @@
 <body>
     <h1>지뢰찾기</h1>
     <h2>난이도 선택</h2>
+    <!-- 난이도 선택 버튼들 -->
     <button onclick="genGrid(1);" id="easy" class="level">Easy</button>
     <button onclick="genGrid(2);" id="normal" class="level">Normal</button>
     <button onclick="genGrid(3);" id="hard" class="level">Hard</button>
     <button onclick="genGrid(4);" id="lunatic" class="level">Lunatic</button>
+    <!-- 게임 보드가 표시될 테이블 -->
     <table id="board"></table>
+    <!-- 게임 재시작 및 초기화 버튼 -->
     <button onclick="re()">다시 하기</button>
     <button onclick="cho()">초기화</button>
+    <!-- 게임 통계 표시 영역 -->
     <p id="p"></p>
     <p id="p2"></p>
 
     <script>
         let grid = document.getElementById("board");
-        let l = 1;
-        let clicke = 0;
-        let bestScores = {1: 0, 2: 0, 3: 0, 4: 0};
-        let level = 0;
+        let l = 1; // 게임 상태: 1 = 진행 중, 0 = 종료
+        let clicke = 0; // 클릭한 셀 수
+        let bestScores = {1: 0, 2: 0, 3: 0, 4: 0}; // 각 난이도별 최고 기록
+        let level = 0; // 현재 난이도
 
+        // 초기화 함수
         function cho() {
-            l = 1;
-            clicke = 0;
-            grid.innerHTML = "";
-            document.querySelectorAll('.level').forEach(button => button.style.display = 'inline-block');
+            l = 1; // 게임 상태를 진행 중으로 설정
+            clicke = 0; // 클릭 수 초기화
+            grid.innerHTML = ""; // 보드 내용 초기화
+            document.querySelectorAll('.level').forEach(button => button.style.display = 'inline-block'); // 난이도 선택 버튼을 다시 표시
         }
 
+        // 게임 보드 생성 함수
         function genGrid(difficulty) {
-            level = difficulty;
-            clicke = 0;
-            l = 1;
-            grid.innerHTML = "";
+            level = difficulty; // 난이도 설정
+            clicke = 0; // 클릭 수 초기화
+            l = 1; // 게임 상태를 진행 중으로 설정
+            grid.innerHTML = ""; // 보드 내용 초기화
             
+            // 난이도 선택 버튼 숨기기
             document.querySelectorAll('.level').forEach(button => button.style.display = 'none');
 
+            // 16x16 게임 보드 생성
             for (let i = 0; i < 16; i++) {
-                let row = grid.insertRow(i);
+                let row = grid.insertRow(i); // 행 추가
                 for (let j = 0; j < 16; j++) {
-                    let cell = row.insertCell(j);
+                    let cell = row.insertCell(j); // 열 추가
+                    // 지뢰 여부 설정 (난이도에 따라 지뢰 확률 조정)
                     cell.setAttribute("mine", Math.random() < 0.2 * level ? "true" : "false");
+                    // 셀 클릭 시 동작 정의
                     cell.onclick = function () { 
-                        if (l === 1) clickBox(this); 
-                        else alert("초기화 하라고!!"); 
+                        if (l === 1) clickBox(this); // 게임이 진행 중일 때만 클릭 처리
+                        else alert("초기화 하라고!!"); // 게임 종료 상태일 때 클릭 시 경고
                     };
                 }
             }
         }
 
+        // 셀 클릭 처리 함수
         function clickBox(cell) {
+            // 클릭한 셀이 지뢰일 경우
             if (cell.getAttribute("mine") === "true") {
-                cell.className = "mine";
-                l = 0;
-                rev();
-                display();
-                alert("게임이 종료되었습니다.");
+                cell.className = "mine"; // 셀 배경 색상을 지뢰 색상으로 변경
+                l = 0; // 게임 상태를 종료로 설정
+                rev(); // 지뢰 위치 모두 표시
+                display(); // 통계 업데이트
+                alert("게임이 종료되었습니다."); // 게임 종료 알림
             } else {
-                cell.className = "clicked";
-                clicke++;
-                display();
+                cell.className = "clicked"; // 클릭한 셀의 배경 색상 변경
+                clicke++; // 클릭 수 증가
+                display(); // 통계 업데이트
             }
         }
 
+        // 게임 통계 표시 함수
         function display() {
-            document.getElementById("p").innerHTML = "성공 횟수 : " + clicke;
+            document.getElementById("p").innerHTML = "성공 횟수 : " + clicke; // 클릭 수 표시
             if (clicke > bestScores[level]) {
-                bestScores[level] = clicke;
+                bestScores[level] = clicke; // 최고 기록 갱신
             }
-            document.getElementById("p2").innerHTML = "최고 기록 : " + bestScores[level];
+            document.getElementById("p2").innerHTML = "최고 기록 : " + bestScores[level]; // 최고 기록 표시
         }
 
+        // 모든 지뢰 위치 표시 함수
         function rev() {
-            let cells = grid.getElementsByTagName("td");
+            let cells = grid.getElementsByTagName("td"); // 모든 셀 가져오기
             for (let cell of cells) {
-                if (cell.getAttribute("data-mine") === "true") {
-                    cell.className = "mine";
+                if (cell.getAttribute("mine") === "true") {
+                    cell.className = "mine"; // 지뢰 셀의 배경 색상 변경
                 }
             }
         }
 
+        // 게임 재시작 함수
         function re() {
-            l = 1;
-            clicke = 0;
-            grid.innerHTML = "";
-            genGrid(level);
+            l = 1; // 게임 상태를 진행 중으로 설정
+            clicke = 0; // 클릭 수 초기화
+            grid.innerHTML = ""; // 보드 내용 초기화
+            genGrid(level); // 현재 난이도로 보드 재생성
         }
     </script>
 </body>
